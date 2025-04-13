@@ -12,13 +12,13 @@ A complete rework of [vcl-tournament-overlay-tosu](https://github.com/vncommunit
 - Extract the downloaded zip file to `static` folder of tosu.
 - Your file structure should be like this
 ```
-static
-  vcl-overlay
-    assets/
-    check.svg
-    data.json
-    index.html
-    vcl.svg
+static/
+└── vcl-overlay/
+    ├── assets/
+    ├── check.svg
+    ├── data.json
+    ├── index.html
+    └── vcl.svg
 ```
 - Update data in `data.json` file (example is provided in the file)
 
