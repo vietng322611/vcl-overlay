@@ -1,13 +1,13 @@
 import type ZEngine from "@fukutotojido/z-engine";
 import type Test from "../Test"
-import IPCClient from "./IPCClient";
+// import IPCClient from "./IPCClient";
 
-const CLIENT_COUNT = 4;
+// const CLIENT_COUNT = 4;
 export default class ResultHandler {
 	resultContainer: HTMLElement | null;
     isEnded = false;
 
-    clients: IPCClient[];
+    // clients: IPCClient[];
 
 	constructor(engine: ZEngine, test?: Test) {
 		this.resultContainer = document.querySelector("#resultContainer");
