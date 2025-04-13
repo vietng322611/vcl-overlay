@@ -1,0 +1,32 @@
+#anchorLeft {
+	anchor-name: --score-left;
+}
+
+#anchorRight {
+	anchor-name: --score-right;
+}
+
+#scoreLeft {
+	/* biome-ignore lint/correctness/noUnknownProperty: <explanation> */
+	position-anchor: --score-left;
+    top: anchor(bottom);
+    right: anchor(right);
+
+    width: min-content;
+    transform: translateX(50%);
+}
+
+#scoreRight {
+	/* biome-ignore lint/correctness/noUnknownProperty: <explanation> */
+	position-anchor: --score-right;
+    top: anchor(bottom);
+    left: anchor(left);
+
+    width: min-content;
+    transform: translateX(-50%);
+}
+
+#barLeft,
+#barRight {
+    transition: ease-out 400ms;
+}
