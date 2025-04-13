@@ -1,13 +1,12 @@
-# Vietnam Community League Overlay
-A complete rework of [vcl-tournament-overlay-tosu](https://github.com/vncommunityleague/vcl-tournament-overlay-tosu), using [Z-Engine](https://www.npmjs.com/package/@fukutotojido/z-engine) as value change listener. Made by [ANON TOKYO](https://github.com/FukutoTojido) of Vietnam Community League.
+# Vietnam Community League - Tournament Overlay
+A complete rework of [vcl-tournament-overlay-tosu](https://github.com/vncommunityleague/vcl-tournament-overlay-tosu), using [Z-Engine](https://www.npmjs.com/package/@fukutotojido/z-engine) as value change listener. Developed by [ANON TOKYO](https://github.com/FukutoTojido).
 
 ## Why this thing exist?
-- You hate configuring Lazer
-- You want the experience look that Lazer provides but want to spend less time setting things up
-- You prefer the ease of customizing an open-source overlay
+- You hate configuring Lazer but still prefer the design of its tournament overlay
+- You prefer using an open-source and highly customizable (if you know how to) solution
 
 ## Setup
-- Install [tosu](https://github.com/tosuapp/tosu/releases/tag/v4.4.3)
+- Install [tosu](https://github.com/tosuapp/tosu/releases/latest)
 - Download the latest release from the [Release](https://github.com/vncommunityleague/vcl-overlay/Releases) page of this repository
 - Extract the downloaded zip file to `static` folder of tosu.
 - Your file structure should be like this
@@ -55,11 +54,11 @@ bun run build
 
 ## FAQs
 **Does this support accuracy?**
-- To be implemented
+- Work in progress! You can use the [old version](https://github.com/vncommunityleague/vcl-tournament-overlay-tosu) for the time being.
 
 **Does this support automatic pick?**
-- I have come to the decision to remove the automatic pick functionality as a whole due to its complexity and I'm just fed up with being told to add that it and remove that out over and over again
+- Removed in this version, old one still has it. 
 
 **Who should I contact to get support?**
-- For additional support, DM `hoaq#6054` on Discord (or ping in osu! Tournament Hub) - note that any requests regarding modifying overlay design will be ignored.
-- If you are modifying this overlay, please make a fork so we know which tournament this is being used for :D
+- For additional support, DM `itsmehoaq` on Discord (or ping in osu! Tournament Hub) - note that any requests regarding modifying overlay design or functionality will be ignored.
+- If you are using this overlay, please make a fork so we know which tournament this is being used for :D
