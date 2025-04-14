@@ -54,7 +54,8 @@ bun run build
 
 ## FAQs
 **Does this support accuracy?**
-- Work in progress! You can use the [old version](https://github.com/vncommunityleague/vcl-tournament-overlay-tosu) for the time being.
+- ~~Work in progress! You can use the [old version](https://github.com/vncommunityleague/vcl-tournament-overlay-tosu) for the time being.~~
+- Not only by accuracy but also by max combo or miss count. Support TeamSize >= 1. 
 
 **Does this support automatic pick?**
 - Removed in this version, old one still has it. 
