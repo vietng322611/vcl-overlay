@@ -36,7 +36,7 @@ export default class TeamHandler {
 			);
 
 			engine.register(value.key, (_, newValue, data) => {
-				if (element === null || test?.testMode) return;
+				if (element === null) return;
 
 				switch (value.id) {
 					case "nameLeft":

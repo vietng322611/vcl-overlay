@@ -13,7 +13,7 @@ import GameStateHandler from "./handler/GameStateHandler";
 import MappoolHandler from "./handler/MappoolHandler";
 
 const engine = new ZEngine("ws://127.0.0.1:24050/ws");
-const test = new Test();
+const test = new Test(engine);
 
 const beatmapHandler = new BeatmapHandler(engine, test);
 const chatHandler = new ChatHandler(engine, test);

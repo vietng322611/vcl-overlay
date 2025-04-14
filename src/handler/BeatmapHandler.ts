@@ -56,7 +56,7 @@ export default class BeatmapHandler {
 			);
 
 			engine.register(value.key, (_, newValue) => {
-				if (element === null || test?.testMode) return;
+				if (element === null) return;
 				switch (value.id) {
 					case "CS":
 					case "AR":

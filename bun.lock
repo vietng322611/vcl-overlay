@@ -4,7 +4,6 @@
     "": {
       "name": "vhp-2025",
       "dependencies": {
-        "@fukutotojido/z-engine": "^1.0.5",
         "@tailwindcss/vite": "^4.1.3",
         "@types/node": "^22.13.5",
         "axios": "^1.8.4",
@@ -67,8 +66,6 @@
     "@esbuild/win32-ia32": ["@esbuild/win32-ia32@0.24.2", "", { "os": "win32", "cpu": "ia32" }, "sha512-q+iGUwfs8tncmFC9pcnD5IvRHAzmbwQ3GPS5/ceCyHdjXubwQWI12MKWSNSMYLJMq23/IUCvJMS76PDqXe1fxA=="],
 
     "@esbuild/win32-x64": ["@esbuild/win32-x64@0.24.2", "", { "os": "win32", "cpu": "x64" }, "sha512-7VTgWzgMGvup6aSqDPLiW5zHaxYJGTO4OokMjIlrCtf+VpEL+cXKtCvg723iguPYI5oaUNdS+/V7OU2gvXVWEg=="],
-
-    "@fukutotojido/z-engine": ["@fukutotojido/z-engine@1.0.5", "", { "peerDependencies": { "typescript": "^5.0.0" } }, "sha512-iAIpvhWheG2RSDLQAolFW1hwE4kSwNI7OUjchhnXBcT7jJKnMLMVE86dc5Hk4rhbOZ9lLtVRATsTmElbxJ8tew=="],
 
     "@rollup/rollup-android-arm-eabi": ["@rollup/rollup-android-arm-eabi@4.34.8", "", { "os": "android", "cpu": "arm" }, "sha512-q217OSE8DTp8AFHuNHXo0Y86e1wtlfVrXiAlwkIvGRQv9zbc6mE3sjIVfwI8sYUyNxwOg0j/Vm1RKM04JcWLJw=="],
 

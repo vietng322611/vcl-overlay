@@ -87,15 +87,15 @@
 				<label for="testMode" class="font-medium">Test Mode</label>
 			</div>
 			<div class="flex w-full flex-col gap-2.5">
-				<div class="font-medium text-lg">Score</div>
+				<div class="font-medium text-lg">Scoring</div>
 				<div class="flex w-full gap-5">
 					<div class="flex gap-5 items-center">
 						<label for="testScoreLeft">Left</label>
-						<input type="number" name="testScoreLeft" id="testScoreLeft">
+						<input type="number" name="testScoreLeft" id="testScoreLeft" value="0">
 					</div>
 					<div class="flex gap-5 items-center">
 						<label for="testScoreRight">Right</label>
-						<input type="number" name="testScoreRight" id="testScoreRight">
+						<input type="number" name="testScoreRight" id="testScoreRight" value="0">
 					</div>
 				</div>
 			</div>
@@ -118,6 +118,29 @@
 			<button id="toggleMappool"
 				class="p-5 rounded-xl bg-base border-1 border-surface-0 cursor-pointer hover:bg-surface-0">Toggle
 				Mappool</button>
+			<div class="font-medium">Scoring Condition</div>
+			<div class="flex items-center gap-8">
+				<div class="flex items-center gap-2.5">
+					<input type="radio" checked="true" name="scoring" id="scoring-score" value="score"
+						class="appearance-none w-5 h-5 rounded-full border-2 border-surface-0 checked:border-text before:content-['_'] before:transition-all before:w-0 before:h-0 checked:before:w-2.5 checked:before:h-2.5 before:rounded-full before:block before:bg-text flex items-center justify-center transition-all">
+					<label for="scoring-score">Score</label>
+				</div>
+				<div class="flex items-center gap-2.5">
+					<input type="radio" name="scoring" id="scoring-acc" value="acc"
+						class="appearance-none w-5 h-5 rounded-full border-2 border-surface-0 checked:border-text before:content-['_'] before:transition-all before:w-0 before:h-0 checked:before:w-2.5 checked:before:h-2.5 before:rounded-full before:block before:bg-text flex items-center justify-center transition-all">
+					<label for="scoring-acc">Accuracy</label>
+				</div>
+				<div class="flex items-center gap-2.5">
+					<input type="radio" name="scoring" id="scoring-combo" value="combo"
+						class="appearance-none w-5 h-5 rounded-full border-2 border-surface-0 checked:border-text before:content-['_'] before:transition-all before:w-0 before:h-0 checked:before:w-2.5 checked:before:h-2.5 before:rounded-full before:block before:bg-text flex items-center justify-center transition-all">
+					<label for="scoring-combo">Max Combo</label>
+				</div>
+				<div class="flex items-center gap-2.5">
+					<input type="radio" name="scoring" id="scoring-miss" value="miss"
+						class="appearance-none w-5 h-5 rounded-full border-2 border-surface-0 checked:border-text before:content-['_'] before:transition-all before:w-0 before:h-0 checked:before:w-2.5 checked:before:h-2.5 before:rounded-full before:block before:bg-text flex items-center justify-center transition-all">
+					<label for="scoring-miss">Lowest Misscount</label>
+				</div>
+			</div>
 		</div>
 	</div>
 	<script type="module" src="/src/main.ts"></script>

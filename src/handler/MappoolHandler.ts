@@ -31,9 +31,9 @@ class BeatmapContainer {
 			class="flex justify-center w-[0px] bg-white text-[10px] font-medium leading-none text-center align-center overflow-hidden transition-all indicator"
 		></div>
 		<div 
-			class="relative flex-1 h-full bg-white flex justify-between items-center gap-5 p-2.5 px-5 bg-center bg-cover bg-no-repeat text-white overflow-hidden"
-			style="background-image: url('${data.beatmapset.covers.slimcover}')"
+			class="relative flex-1 h-full bg-white flex justify-between items-center gap-5 p-2.5 px-5 text-white overflow-hidden"
 		>
+			<img src="${data.beatmapset.covers.slimcover}" class="absolute top-0 left-0 w-full h-full object-cover object-center"/>
 			<div class="absolute top-0 left-0 w-full h-full bg-crust/70"></div>
 			<div class="relative truncate shrink-0 flex-1">
 				<div class="text-xs truncate">${data.beatmapset.artist}</div>

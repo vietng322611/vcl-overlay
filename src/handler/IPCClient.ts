@@ -3,139 +3,63 @@ import type ZEngine from "@fukutotojido/z-engine";
 export default class IPCClient {
 	idx: number;
 	engine: ZEngine;
+	callbacks: {
+		key: string,
+		callback: (key: string, value: string | number) => void
+	}[] = [];
 
-	nameElement: HTMLElement | null = null;
-	avaElement: HTMLElement | null = null;
-	scoreElement: HTMLElement | null = null;
-	accuracyElement: HTMLElement | null = null;
-	maxComboElement: HTMLElement | null = null;
-	h0Element: HTMLElement | null = null;
-	h50Element: HTMLElement | null = null;
-	h100Element: HTMLElement | null = null;
-	h300Element: HTMLElement | null = null;
-	gradeElement: HTMLElement | null = null;
-	URElement: HTMLElement | null = null;
-	modsElement: HTMLElement | null = null;
+	team = "";
+	name = "";
+	score = 0;
+	accuracy = 0;
+	maxCombo = 0;
+	h0 = 0;
+	h50 = 0;
+	h100 = 0;
+	h300 = 0;
+	grade = "SS";
+	UR = 0;
+	mods = 0;
 
-	clientElement: HTMLElement;
+	static VALUE_MAP = [
+		["spectating.team", "team"],
+		["gameplay.name", "name"],
+		["gameplay.score", "score"],
+		["gameplay.accuracy", "accuracy"],
+		["gameplay.combo.max", "maxCombo"],
+		["gameplay.hits.0", "h0"],
+		["gameplay.hits.50", "h50"],
+		["gameplay.hits.100", "h100"],
+		["gameplay.hits.300", "h300"],
+		["gameplay.hits.grade.current", "grade"],
+		["gameplay.hits.unstableRate", "UR"],
+		["gameplay.mods.num", "mods"]
+	]
 
 	constructor(engine: ZEngine, idx: number) {
 		this.engine = engine;
 		this.idx = idx;
 
-		this.clientElement = this.createElements();
+		this.callbacks = IPCClient.VALUE_MAP.map(([ key, id ]) => {
+			// biome-ignore lint/suspicious/noExplicitAny: Var unused
+			const callback = (_: any, newValue: string | number) => this.updateValue(id, newValue);
+			engine.register(`tourney.ipcClients.${this.idx}.${key}`, callback);
+
+			return {
+				key,
+				callback
+			}
+		})
 	}
 
-	createElements() {
-		const clientElement = document.createElement("div");
-		clientElement.innerHTML = `
-			<div id="client-${this.idx}">
-				<div id="name-${this.idx}"></div>
-				<div id="ava-${this.idx}"></div>
-				<div id="score-${this.idx}"></div>
-				<div id="accuracy-${this.idx}"></div>
-				<div id="maxCombo-${this.idx}"></div>
-				<div id="h0-${this.idx}"></div>
-				<div id="h50-${this.idx}"></div>
-				<div id="h100-${this.idx}"></div>
-				<div id="h300-${this.idx}"></div>
-				<div id="grade-${this.idx}"></div>
-				<div id="UR-${this.idx}"></div>
-				<div id="mods-${this.idx}"></div>
-			</div>
-		`;
-
-		const [
-			nameElement,
-			avaElement,
-			scoreElement,
-			accuracyElement,
-			maxComboElement,
-			h0Element,
-			h50Element,
-			h100Element,
-			h300Element,
-			gradeElement,
-			URElement,
-			modsElement,
-		] = [
-			"name",
-			"ava",
-			"score",
-			"accuracy",
-			"maxCombo",
-			"h0",
-			"h50",
-			"h100",
-			"h300",
-			"grade",
-			"UR",
-			"mods",
-		].map((key): HTMLElement | null =>
-			document.querySelector(`#${key}-${this.idx}`),
-		);
-
-		this.nameElement = nameElement;
-		this.avaElement = avaElement;
-		this.scoreElement = scoreElement;
-		this.accuracyElement = accuracyElement;
-		this.maxComboElement = maxComboElement;
-		this.h0Element = h0Element;
-		this.h50Element = h50Element;
-		this.h100Element = h100Element;
-		this.h300Element = h300Element;
-		this.gradeElement = gradeElement;
-		this.URElement = URElement;
-		this.modsElement = modsElement;
-
-		return clientElement;
+	destruct() {
+		for (const { key, callback } of this.callbacks) {
+			this.engine.unregister(key, callback);
+		}
 	}
 
-	set name(value: string) {
-		this.name = value;
-	}
-
-	set uid(value: number) {
-		this.uid = value;
-	}
-
-	set score(value: number) {
-		this.score = value;
-	}
-
-	set accuracy(value: number) {
-		this.accuracy = value;
-	}
-
-	set maxCombo(value: number) {
-		this.maxCombo = value;
-	}
-
-	set h0(value: number) {
-		this.h0 = value;
-	}
-
-	set h50(value: number) {
-		this.h50 = value;
-	}
-
-	set h100(value: number) {
-		this.h100 = value;
-	}
-
-	set h300(value: number) {
-		this.h300 = value;
-	}
-
-	set grade(value: string) {
-		this.grade = value;
-	}
-
-	set UR(value: number) {
-		this.UR = value;
-	}
-
-	set mods(value: number) {
-		this.mods = value;
+	updateValue(key: string, value: string | number) {
+		// @ts-ignore
+		this[key] = value;
 	}
 }
