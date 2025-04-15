@@ -14,12 +14,14 @@ export enum ScoringCondition {
 export default class ScoreHandler {
 	scoreLeftElement: HTMLElement | null;
 	scoreRightElement: HTMLElement | null;
+	differenceElement: HTMLElement | null;
 	barLeftElement: HTMLElement | null;
 	barLeftContainerElement: HTMLElement | null;
 	barRightElement: HTMLElement | null;
 	barRightContainerElement: HTMLElement | null;
 	countUpLeft: CountUp;
 	countUpRight: CountUp;
+	countUpDiff: CountUp;
 	maxObjects = 0;
 
 	scores = {
@@ -71,6 +73,8 @@ export default class ScoreHandler {
 
 		this.scoreLeftElement = document.querySelector("#scoreLeft");
 		this.scoreRightElement = document.querySelector("#scoreRight");
+		this.differenceElement = document.querySelector("#difference");
+
 		this.barLeftContainerElement = document.querySelector("#barLeftContainer");
 		this.barLeftElement = document.querySelector("#barLeft");
 		this.barRightContainerElement =
@@ -87,6 +91,14 @@ export default class ScoreHandler {
 			0,
 			this.COUNT_UP_BASE_OPTIONS,
 		);
+		this.countUpDiff = new CountUp(
+			this.differenceElement ?? "#difference",
+			0,
+			this.COUNT_UP_BASE_OPTIONS,
+		);
+		this.countUpLeft.start();
+		this.countUpRight.start();
+		this.countUpDiff.start();
 
 		for (const ele of document.querySelectorAll<HTMLInputElement>(
 			"[name=scoring]",
@@ -235,6 +247,7 @@ export default class ScoreHandler {
 
 		this.countUpLeft.update(scoringLeft);
 		this.countUpRight.update(scoringRight);
+		this.countUpDiff.update(Math.abs(difference));
 
 		this.barLeftContainerElement.style.minWidth = `calc(${
 			getComputedStyle(this.scoreLeftElement).width
@@ -243,19 +256,27 @@ export default class ScoreHandler {
 			getComputedStyle(this.scoreRightElement).width
 		} / 2)`;
 
-		if (this.scoringCondition !== ScoringCondition.MISS_COUNT) {
-			this.barLeftElement.style.width =
-				difference > 0 ? `calc(${Math.min(1, lineDiffFactor)} * 960px)` : "0px";
-			this.barRightElement.style.width =
-				difference < 0 ? `calc(${Math.min(1, lineDiffFactor)} * 960px)` : "0px";
+		const isLeftLeading =
+			difference > 0 !==
+			(this.scoringCondition !== ScoringCondition.MISS_COUNT);
+		const isRightLeading =
+			difference < 0 !==
+			(this.scoringCondition !== ScoringCondition.MISS_COUNT);
 
-			return;
+		this.barLeftElement.style.width = isLeftLeading
+			? `calc(${Math.min(1, lineDiffFactor)} * 960px)`
+			: "0px";
+		this.barRightElement.style.width = isRightLeading
+			? `calc(${Math.min(1, lineDiffFactor)} * 960px)`
+			: "0px";
+
+		if (isLeftLeading) {
+			this.differenceElement?.classList.remove("right-[50%]");
+			this.differenceElement?.classList.add("left-[50%]");
+		} else {
+			this.differenceElement?.classList.add("right-[50%]");
+			this.differenceElement?.classList.remove("left-[50%]");
 		}
-
-		this.barLeftElement.style.width =
-			difference < 0 ? `calc(${Math.min(1, lineDiffFactor)} * 960px)` : "0px";
-		this.barRightElement.style.width =
-			difference > 0 ? `calc(${Math.min(1, lineDiffFactor)} * 960px)` : "0px";
 	}
 
 	switchScoringCondition(type: ScoringCondition) {
@@ -281,6 +302,7 @@ export default class ScoreHandler {
 
 		this.countUpLeft?.pauseResume();
 		this.countUpRight?.pauseResume();
+		this.countUpDiff?.pauseResume();
 
 		this.countUpLeft = new CountUp(
 			this.scoreLeftElement ?? "#scoreLeft",
@@ -292,6 +314,14 @@ export default class ScoreHandler {
 			0,
 			countUpOptions,
 		);
+		this.countUpDiff = new CountUp(
+			this.differenceElement ?? "#difference",
+			0,
+			countUpOptions,
+		);
+		this.countUpLeft.start();
+		this.countUpRight.start();
+		this.countUpDiff.start();
 
 		this.scoringCondition = type;
 		this.update(this.engine.cache);
