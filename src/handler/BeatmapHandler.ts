@@ -110,16 +110,24 @@ export default class BeatmapHandler {
 			this.redPickedMaps.delete(mapId!);
 			this.bluePickedMaps.delete(mapId!);
 		}
-		if (action === 3) this.redPickedMaps.add(mapId!);
-		if (action === 4) this.bluePickedMaps.add(mapId!);
+		if (action === 3) {
+			this.redPickedMaps.add(mapId!);
+			this.bluePickedMaps.delete(mapId!);
+		}
+		if (action === 4) {
+			this.bluePickedMaps.add(mapId!);
+			this.redPickedMaps.delete(mapId!);
+		}
 		if (this.redPickedMaps.has(this.currentMapId)) {
 			element.innerHTML = `<span style="writing-mode: vertical-lr; text-orientation: upright;">PICK</span>`;
+			element.style.width = "28px";
 			element.style.color = "white";
 			element.style.backgroundColor = "var(--color-red)";
 			return;
 		}
 		if (this.bluePickedMaps.has(this.currentMapId)) {
 			element.innerHTML = `<span style="writing-mode: vertical-lr; text-orientation: upright;">PICK</span>`;
+			element.style.width = "28px";
 			element.style.color = "white";
 			element.style.backgroundColor = "var(--color-blue)";
 			return;
