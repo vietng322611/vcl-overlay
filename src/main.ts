@@ -20,7 +20,7 @@ const chatHandler = new ChatHandler(engine, test);
 const teamHandler = new TeamHandler(engine, test);
 const scoreHandler = new ScoreHandler(engine, test);
 const gameStateHandler = new GameStateHandler(engine, test);
-new MappoolHandler();
+new MappoolHandler(beatmapHandler);
 
 test.assign({
 	beatmapHandler,

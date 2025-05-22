@@ -1,5 +1,6 @@
 import axios from "axios";
 import type { Beatmap, Data, Modpool } from "../types";
+import BeatmapHandler from "./BeatmapHandler";
 
 enum Status {
 	NIL = 0,
@@ -14,12 +15,14 @@ enum Side {
 }
 
 class BeatmapContainer {
+	beatmapHandler: BeatmapHandler;
 	data: Beatmap;
 	status = Status.NIL;
 	side = Side.NIL;
 	ele: HTMLDivElement;
 
-	constructor(data: Beatmap, icon: string) {
+	constructor(data: Beatmap, icon: string, beatmapHandler: BeatmapHandler) {
+		this.beatmapHandler = beatmapHandler;
 		this.data = data;
 
 		const ele = document.createElement("div");
@@ -118,10 +121,12 @@ class BeatmapContainer {
 
 					switch (this.side) {
 						case Side.LEFT: {
+							this.beatmapHandler.updatePicker(this.data.id, 3);
 							indicator.style.backgroundColor = "var(--color-red)";
 							break;
 						}
 						case Side.RIGHT: {
+							this.beatmapHandler.updatePicker(this.data.id, 4);
 							indicator.style.backgroundColor = "var(--color-blue)";
 							break;
 						}
@@ -129,7 +134,6 @@ class BeatmapContainer {
 							indicator.style.backgroundColor = "white";
 						}
 					}
-
 					break;
 				}
 				case Status.BANNED: {
@@ -139,10 +143,12 @@ class BeatmapContainer {
 
 					switch (this.side) {
 						case Side.LEFT: {
+							this.beatmapHandler.updatePicker(this.data.id, 2);
 							indicator.style.color = "var(--color-red)";
 							break;
 						}
 						case Side.RIGHT: {
+							this.beatmapHandler.updatePicker(this.data.id, 2);
 							indicator.style.color = "var(--color-blue)";
 							break;
 						}
@@ -153,6 +159,15 @@ class BeatmapContainer {
 					break;
 				}
 				default: {
+					switch (this.side) {
+						case Side.LEFT: {
+							break;
+						}
+						case Side.RIGHT: {
+							break;
+						}
+					}
+					this.beatmapHandler.updatePicker(this.data.id, 2);
 					indicator.textContent = "";
 					indicator.style.width = "0px";
 					indicator.style.color = "";
@@ -180,7 +195,7 @@ class ModContainer {
 	beatmaps: BeatmapContainer[] = [];
 	ele: HTMLDivElement;
 
-	constructor({ maps, mod, icon }: Modpool, mapsData: Beatmap[]) {
+	constructor({ maps, mod, icon }: Modpool, mapsData: Beatmap[], beatmapHandler: BeatmapHandler) {
 		this.mod = mod;
 		this.icon = icon;
 
@@ -192,7 +207,7 @@ class ModContainer {
 			const mapData = mapsData.find((map) => map.id === id);
 			if (!mapData) continue;
 
-			const beatmapContainer = new BeatmapContainer(mapData, this.icon);
+			const beatmapContainer = new BeatmapContainer(mapData, this.icon, beatmapHandler);
 			this.ele.append(beatmapContainer.ele);
 			this.beatmaps.push(beatmapContainer);
 		}
@@ -204,8 +219,8 @@ export default class MappoolHandler {
 	mods: ModContainer[] = [];
 	showMappool = false;
 
-	constructor() {
-		this.init();
+	constructor(beatmapHandler: BeatmapHandler) {
+		this.init(beatmapHandler);
 		document
 			.querySelector("#toggleMappool")
 			?.addEventListener("click", () => this.toggleMappool());
@@ -229,7 +244,7 @@ export default class MappoolHandler {
 		}
 	}
 
-	async init() {
+	async init(beatmapHandler: BeatmapHandler) {
 		try {
 			const json: Data = (await axios.get("./data.json")).data;
 			const mapIds: number[] = json.mappool.reduce((acc, currMod) => {
@@ -249,7 +264,7 @@ export default class MappoolHandler {
 
 			const mappoolContainer = document.querySelector("#mappoolContainer");
 			for (const mod of json.mappool) {
-				const modContainer = new ModContainer(mod, this.beatmaps);
+				const modContainer = new ModContainer(mod, this.beatmaps, beatmapHandler);
 				if (mappoolContainer) mappoolContainer.append(modContainer.ele);
 				this.mods.push(modContainer);
 			}
