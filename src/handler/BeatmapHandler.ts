@@ -111,18 +111,18 @@ export default class BeatmapHandler {
 	public updatePickedMaps(mapId: number, action: number) {
 		switch (action) {
 			case PickAction.REMOVE_PICK: {
-				this.redPickedMaps.delete(mapId!);
-				this.bluePickedMaps.delete(mapId!);
+				this.redPickedMaps.delete(mapId);
+				this.bluePickedMaps.delete(mapId);
 				break;
 			}
 			case PickAction.PICK_RED: {
-				this.redPickedMaps.add(mapId!);
-				this.bluePickedMaps.delete(mapId!);
+				this.redPickedMaps.add(mapId);
+				this.bluePickedMaps.delete(mapId);
 				break;
 			}
 			case PickAction.PICK_BLUE: {
-				this.bluePickedMaps.add(mapId!);
-				this.redPickedMaps.delete(mapId!);
+				this.bluePickedMaps.add(mapId);
+				this.redPickedMaps.delete(mapId);
 				break;
 			}
 		}
