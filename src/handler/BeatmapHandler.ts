@@ -1,7 +1,17 @@
 import type ZEngine from "@fukutotojido/z-engine";
 import type Test from "../Test";
 
+enum PickAction {
+	PICK_RED = 0,
+	PICK_BLUE = 1,
+	REMOVE_PICK = 2,
+}
+
 export default class BeatmapHandler {
+	static readonly PICK_RED = PickAction.PICK_RED;
+  	static readonly PICK_BLUE = PickAction.PICK_BLUE;
+  	static readonly REMOVE_PICK = PickAction.REMOVE_PICK;
+
 	redPickedMaps: Set<Number> = new Set();
 	bluePickedMaps: Set<Number> = new Set();
 	currentMapId: number = -1;
@@ -102,34 +112,39 @@ export default class BeatmapHandler {
 		}
 	}
 
-	public async updatePicker(mapId?: number, action: number = 1) {
-		// 1: change, 2: remove, 3: add red, 4: add blue
+	public updatePickedMaps(mapId: number, action: number) {
+		switch (action) {
+			case PickAction.REMOVE_PICK: {
+				this.redPickedMaps.delete(mapId!);
+				this.bluePickedMaps.delete(mapId!);
+				break;
+			}
+			case PickAction.PICK_RED: {
+				this.redPickedMaps.add(mapId!);
+				this.bluePickedMaps.delete(mapId!);
+				break;
+			}
+			case PickAction.PICK_BLUE: {
+				this.bluePickedMaps.add(mapId!);
+				this.redPickedMaps.delete(mapId!);
+				break;
+			}
+		}
+		this.updatePicker();
+	}
+
+	private updatePicker() {
 		const element: HTMLElement | null = document.querySelector(`#picker`,);
 		if (element === null) return;
-		if (action === 2) {
-			this.redPickedMaps.delete(mapId!);
-			this.bluePickedMaps.delete(mapId!);
-		}
-		if (action === 3) {
-			this.redPickedMaps.add(mapId!);
-			this.bluePickedMaps.delete(mapId!);
-		}
-		if (action === 4) {
-			this.bluePickedMaps.add(mapId!);
-			this.redPickedMaps.delete(mapId!);
-		}
-		if (this.redPickedMaps.has(this.currentMapId)) {
+
+		const hasRed = this.redPickedMaps.has(this.currentMapId);
+		const hasBlue = this.bluePickedMaps.has(this.currentMapId);
+
+		if (hasRed || hasBlue) {
 			element.innerHTML = `<span style="writing-mode: vertical-lr; text-orientation: upright;">PICK</span>`;
 			element.style.width = "28px";
 			element.style.color = "white";
-			element.style.backgroundColor = "var(--color-red)";
-			return;
-		}
-		if (this.bluePickedMaps.has(this.currentMapId)) {
-			element.innerHTML = `<span style="writing-mode: vertical-lr; text-orientation: upright;">PICK</span>`;
-			element.style.width = "28px";
-			element.style.color = "white";
-			element.style.backgroundColor = "var(--color-blue)";
+			element.style.backgroundColor = hasRed ? "var(--color-red)" : "var(--color-blue)";
 			return;
 		}
 		element.innerHTML = "";
