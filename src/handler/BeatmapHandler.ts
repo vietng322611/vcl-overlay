@@ -1,17 +1,13 @@
 import type ZEngine from "@fukutotojido/z-engine";
 import type Test from "../Test";
 
-enum PickAction {
+export enum PickAction {
 	PICK_RED = 0,
 	PICK_BLUE = 1,
 	REMOVE_PICK = 2,
 }
 
 export default class BeatmapHandler {
-	static readonly PICK_RED = PickAction.PICK_RED;
-  	static readonly PICK_BLUE = PickAction.PICK_BLUE;
-  	static readonly REMOVE_PICK = PickAction.REMOVE_PICK;
-
 	redPickedMaps: Set<Number> = new Set();
 	bluePickedMaps: Set<Number> = new Set();
 	currentMapId: number = -1;
