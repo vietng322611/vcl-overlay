@@ -121,12 +121,12 @@ class BeatmapContainer {
 
 					switch (this.side) {
 						case Side.LEFT: {
-							this.beatmapHandler.updatePicker(this.data.id, 3);
+							this.beatmapHandler.updatePickedMaps(this.data.id, BeatmapHandler.PICK_RED);
 							indicator.style.backgroundColor = "var(--color-red)";
 							break;
 						}
 						case Side.RIGHT: {
-							this.beatmapHandler.updatePicker(this.data.id, 4);
+							this.beatmapHandler.updatePickedMaps(this.data.id, BeatmapHandler.PICK_BLUE);
 							indicator.style.backgroundColor = "var(--color-blue)";
 							break;
 						}
@@ -143,12 +143,12 @@ class BeatmapContainer {
 
 					switch (this.side) {
 						case Side.LEFT: {
-							this.beatmapHandler.updatePicker(this.data.id, 2);
+							this.beatmapHandler.updatePickedMaps(this.data.id, BeatmapHandler.REMOVE_PICK);
 							indicator.style.color = "var(--color-red)";
 							break;
 						}
 						case Side.RIGHT: {
-							this.beatmapHandler.updatePicker(this.data.id, 2);
+							this.beatmapHandler.updatePickedMaps(this.data.id, BeatmapHandler.REMOVE_PICK);
 							indicator.style.color = "var(--color-blue)";
 							break;
 						}
@@ -159,15 +159,7 @@ class BeatmapContainer {
 					break;
 				}
 				default: {
-					switch (this.side) {
-						case Side.LEFT: {
-							break;
-						}
-						case Side.RIGHT: {
-							break;
-						}
-					}
-					this.beatmapHandler.updatePicker(this.data.id, 2);
+					this.beatmapHandler.updatePickedMaps(this.data.id, BeatmapHandler.REMOVE_PICK);
 					indicator.textContent = "";
 					indicator.style.width = "0px";
 					indicator.style.color = "";
