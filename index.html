@@ -51,7 +51,7 @@
 				</div>
 				<div id="beatmap" class="w-[50%] h-full flex flex-col gap-5 ">
 					<div id="metadata"
-						class="relative w-full h-[50%] bg-mantle flex flex-col justify-center p-5 bg-cover bg-center transition-transform rounded-xl overflow-hidden border-1 border-surface-0">
+						class="relative grow-1 h-[50%] bg-mantle flex flex-col justify-center p-5 bg-cover bg-center transition-transform rounded-xl overflow-hidden border-1 border-surface-0">
 						<div class="absolute top-0 left-0 bg-crust/70 w-full h-full"></div>
 						<div class="relative text-2xl line-clamp-1 font-medium">
 							<span id="artist"></span>
@@ -63,6 +63,7 @@
 							-
 							Mapper: <span id="mapper"></span>
 						</div>
+						<div id="picker" class="absolute w-[0px] right-0 h-full text-lg font-semibold justify-center text-center overflow-hidden transition-all"></div>
 					</div>
 					<div id="stats" class="w-full h-[50%] text-lg justify-center flex flex-col p-5">
 						<div class="flex gap-2.5">
