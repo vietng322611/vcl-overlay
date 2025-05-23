@@ -1,6 +1,7 @@
 import axios from "axios";
 import type { Beatmap, Data, Modpool } from "../types";
-import BeatmapHandler from "./BeatmapHandler";
+import { PickAction } from "./BeatmapHandler";
+import type BeatmapHandler from "./BeatmapHandler";
 
 enum Status {
 	NIL = 0,
@@ -121,12 +122,12 @@ class BeatmapContainer {
 
 					switch (this.side) {
 						case Side.LEFT: {
-							this.beatmapHandler.updatePickedMaps(this.data.id, BeatmapHandler.PICK_RED);
+							this.beatmapHandler.updatePickedMaps(this.data.id, PickAction.PICK_RED);
 							indicator.style.backgroundColor = "var(--color-red)";
 							break;
 						}
 						case Side.RIGHT: {
-							this.beatmapHandler.updatePickedMaps(this.data.id, BeatmapHandler.PICK_BLUE);
+							this.beatmapHandler.updatePickedMaps(this.data.id, PickAction.PICK_BLUE);
 							indicator.style.backgroundColor = "var(--color-blue)";
 							break;
 						}
@@ -143,12 +144,12 @@ class BeatmapContainer {
 
 					switch (this.side) {
 						case Side.LEFT: {
-							this.beatmapHandler.updatePickedMaps(this.data.id, BeatmapHandler.REMOVE_PICK);
+							this.beatmapHandler.updatePickedMaps(this.data.id, PickAction.REMOVE_PICK);
 							indicator.style.color = "var(--color-red)";
 							break;
 						}
 						case Side.RIGHT: {
-							this.beatmapHandler.updatePickedMaps(this.data.id, BeatmapHandler.REMOVE_PICK);
+							this.beatmapHandler.updatePickedMaps(this.data.id, PickAction.REMOVE_PICK);
 							indicator.style.color = "var(--color-blue)";
 							break;
 						}
@@ -159,7 +160,7 @@ class BeatmapContainer {
 					break;
 				}
 				default: {
-					this.beatmapHandler.updatePickedMaps(this.data.id, BeatmapHandler.REMOVE_PICK);
+					this.beatmapHandler.updatePickedMaps(this.data.id, PickAction.REMOVE_PICK);
 					indicator.textContent = "";
 					indicator.style.width = "0px";
 					indicator.style.color = "";
