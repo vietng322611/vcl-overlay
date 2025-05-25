@@ -12,10 +12,10 @@ export default class ResultHandler {
 	constructor(engine: ZEngine, test?: Test) {
 		this.resultContainer = document.querySelector("#resultContainer");
 
-		engine.register("menu.bm.time.current", (_, value, data) => {
+		engine.register("beatmap.time.live", (_, value, data) => {
             if (test?.testMode) return;
 			this.updateTime(
-				value > data.bm.time.full && data.tourney.manager.bools.scoreVisible,
+				value > data.beatmap.time.total && data.tourney.scoreVisible,
 			);
 		});
 	}

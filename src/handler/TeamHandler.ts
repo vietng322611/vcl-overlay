@@ -5,27 +5,27 @@ export default class TeamHandler {
 	static map = [
 		{
 			id: "nameLeft",
-			key: "tourney.manager.teamName.left",
+			key: "tourney.team.left",
 		},
 		{
 			id: "nameRight",
-			key: "tourney.manager.teamName.right",
+			key: "tourney.team.right",
 		},
 		{
 			id: "starLeft",
-			key: "tourney.manager.stars.left",
+			key: "tourney.points.left",
 		},
 		{
 			id: "starRight",
-			key: "tourney.manager.stars.right",
+			key: "tourney.points.right",
 		},
 		{
 			id: "starLeft",
-			key: "tourney.manager.bestOF",
+			key: "tourney.bestOF",
 		},
 		{
 			id: "starRight",
-			key: "tourney.manager.bestOF",
+			key: "tourney.bestOF",
 		},
 	];
 
@@ -46,10 +46,10 @@ export default class TeamHandler {
 					}
 					case "starLeft":
 					case "starRight": {
-						if (value.key === "tourney.manager.bestOF") {
+						if (value.key === "tourney.bestOF") {
 							this.createStars(
 								element,
-								data.tourney.manager.stars[
+								data.tourney.points[
 									value.id === "starLeft" ? "left" : "right"
 								],
 								newValue ?? 1,
@@ -60,7 +60,7 @@ export default class TeamHandler {
 						this.createStars(
 							element,
 							newValue ?? 0,
-							data.tourney.manager.bestOF ?? 1,
+							data.tourney.bestOF ?? 1,
 						);
 
 						break;

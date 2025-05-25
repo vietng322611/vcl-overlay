@@ -3,16 +3,16 @@ import type Test from "../Test";
 
 interface Chat {
 	team: string;
-	time: string;
+	timestamp: string;
 	name: string;
-	messageBody: string;
+	message: string;
 }
 
 export default class ChatHandler {
 	static map = [
 		{
 			id: "chatInner",
-			key: "tourney.manager.chat.length",
+			key: "tourney.chat.length",
 		},
 	];
 
@@ -27,7 +27,7 @@ export default class ChatHandler {
 
 				switch (value.id) {
 					case "chatInner": {
-						const chats: Chat[] = data.tourney.manager.chat;
+						const chats: Chat[] = data.tourney.chat;
 						this.createChats(element, chats);
 						break;
 					}
@@ -41,7 +41,6 @@ export default class ChatHandler {
 
 	createChats(element: HTMLElement, chats: Chat[]) {
 		element.innerHTML = "";
-
 		const elements = chats.map(this.createChat);
 		element.append(...elements);
 		element.scrollTo({ top: element.scrollHeight, behavior: "smooth" });
@@ -49,14 +48,14 @@ export default class ChatHandler {
 
 	createChat({
 		team,
-		time,
+		timestamp,
 		name,
-		messageBody,
+		message
 	}: {
 		team: string;
-		time: string;
+		timestamp: string;
 		name: string;
-		messageBody: string;
+		message: string;
 	}) {
 		const teamColor = {
 			bot: "yellow",
@@ -68,7 +67,7 @@ export default class ChatHandler {
 
 		const timeElement = document.createElement("div");
 		timeElement.className = "w-[50px] text-right";
-		timeElement.innerText = time;
+		timeElement.innerText = timestamp;
 
 		const nameElement = document.createElement("div");
 		nameElement.className = "w-[120px] font-bold";
@@ -81,7 +80,7 @@ export default class ChatHandler {
 
 		const messageElement = document.createElement("div");
 		messageElement.className = "flex-1";
-		messageElement.innerText = messageBody;
+		messageElement.innerText = message;
 
 		element.append(timeElement, nameElement, messageElement);
 		return element;

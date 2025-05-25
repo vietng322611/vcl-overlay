@@ -22,18 +22,18 @@ export default class IPCClient {
 	mods = 0;
 
 	static VALUE_MAP = [
-		["spectating.team", "team"],
-		["gameplay.name", "name"],
-		["gameplay.score", "score"],
-		["gameplay.accuracy", "accuracy"],
-		["gameplay.combo.max", "maxCombo"],
-		["gameplay.hits.0", "h0"],
-		["gameplay.hits.50", "h50"],
-		["gameplay.hits.100", "h100"],
-		["gameplay.hits.300", "h300"],
-		["gameplay.hits.grade.current", "grade"],
-		["gameplay.hits.unstableRate", "UR"],
-		["gameplay.mods.num", "mods"]
+		["team", "team"],
+		["play.playerName", "name"],
+		["play.score", "score"],
+		["play.accuracy", "accuracy"],
+		["play.combo.max", "maxCombo"],
+		["play.hits.0", "h0"],
+		["play.hits.50", "h50"],
+		["play.hits.100", "h100"],
+		["play.hits.300", "h300"],
+		["play.rank.current", "grade"],
+		["play.unstableRate", "UR"],
+		["play.mods.number", "mods"]
 	]
 
 	constructor(engine: ZEngine, idx: number) {
@@ -43,8 +43,8 @@ export default class IPCClient {
 		this.callbacks = IPCClient.VALUE_MAP.map(([ key, id ]) => {
 			// biome-ignore lint/suspicious/noExplicitAny: Var unused
 			const callback = (_: any, newValue: string | number) => this.updateValue(id, newValue);
-			engine.register(`tourney.ipcClients.${this.idx}.${key}`, callback);
-
+			engine.register(`tourney.clients.${this.idx}.${key}`, callback);
+			
 			return {
 				key,
 				callback

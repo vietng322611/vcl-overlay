@@ -109,18 +109,18 @@ export default class ScoreHandler {
 			});
 		}
 
-		engine.register("tourney.manager.gameplay.score.left", (_, __, data) =>
+		engine.register("tourney.totalScore.left", (_, __, data) =>
 			this.update(data),
 		);
-		engine.register("tourney.manager.gameplay.score.right", (_, __, data) =>
+		engine.register("tourney.totalScore.right", (_, __, data) =>
 			this.update(data),
 		);
-		engine.register("tourney.ipcClients.length", (_, newValue) =>
+		engine.register("tourney.clients.length", (_, newValue) =>
 			this.updateIPCClients(newValue),
 		);
 
 		engine.register_jq(
-			".menu?.bm?.stats?.circles + .menu?.bm?.stats?.sliders",
+			".beatmap?.stats?.objects?.circles + .beatmap?.stats?.objects?.sliders",
 			(_, newValue) => {
 				this.maxObjects = newValue;
 			},
@@ -136,8 +136,8 @@ export default class ScoreHandler {
 		switch (this.scoringCondition) {
 			case ScoringCondition.SCORE: {
 				this.updateScoring(
-					data.tourney.manager.gameplay.score.left,
-					data.tourney.manager.gameplay.score.right,
+					data.tourney.totalScore.left,
+					data.tourney.totalScore.right,
 				);
 				break;
 			}
@@ -216,7 +216,7 @@ export default class ScoreHandler {
 				return Math.min(
 					0.4,
 					(Math.abs(difference) /
-						Math.max(1, this.engine.cache.menu.bm.stats.maxCombo)) **
+						Math.max(1, this.engine.cache.beatmap.stats.maxCombo)) **
 						0.5 /
 						2,
 				);

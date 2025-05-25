@@ -15,51 +15,51 @@ export default class BeatmapHandler {
 	static map = [
 		{
 			id: "artist",
-			key: "menu.bm.metadata.artist",
+			key: "beatmap.artist",
 		},
 		{
 			id: "title",
-			key: "menu.bm.metadata.title",
+			key: "beatmap.title",
 		},
 		{
 			id: "difficulty",
-			key: "menu.bm.metadata.difficulty",
+			key: "beatmap.difficulty",
 		},
 		{
 			id: "mapper",
-			key: "menu.bm.metadata.mapper",
+			key: "beatmap.mapper",
 		},
 		{
 			id: "CS",
-			key: "menu.bm.stats.CS",
+			key: "beatmap.stats.cs.converted",
 		},
 		{
 			id: "AR",
-			key: "menu.bm.stats.AR",
+			key: "beatmap.stats.ar.converted",
 		},
 		{
 			id: "OD",
-			key: "menu.bm.stats.OD",
+			key: "beatmap.stats.od.converted",
 		},
 		{
 			id: "BPM",
-			key: "menu.bm.stats.BPM.common",
+			key: "beatmap.stats.bpm.common",
 		},
 		{
 			id: "SR",
-			key: "menu.bm.stats.fullSR",
+			key: "beatmap.stats.stars.total",
 		},
 		{
 			id: "length",
-			key: "menu.bm.time.full",
+			key: "beatmap.time.lastObject",
 		},
 		{
 			id: "metadata",
-			key: "menu.bm.path.full",
+			key: "directPath.beatmapBackground",
 		},
 		{
 			id: "picker",
-			key: "menu.bm.id",
+			key: "beatmap.id",
 		},
 	];
 

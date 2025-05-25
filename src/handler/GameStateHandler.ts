@@ -16,12 +16,12 @@ export default class GameStateHandler {
 		this.starLeftElement = document.querySelector("#starLeft");
 		this.starRightElement = document.querySelector("#starRight");
 
-		engine.register("tourney.manager.bools.scoreVisible", (_, newValue) => {
+		engine.register("tourney.scoreVisible", (_, newValue) => {
 			if (test?.testMode) return;
 			this.updateScoreVisible(newValue);
 		});
 
-		engine.register("tourney.manager.bools.starsVisible", (_, newValue) => {
+		engine.register("tourney.starsVisible", (_, newValue) => {
 			if (test?.testMode) return;
 			this.updateStarsVisible(newValue);
 		});
