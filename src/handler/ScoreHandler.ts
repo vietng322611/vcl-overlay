@@ -258,10 +258,10 @@ export default class ScoreHandler {
 
 		const isLeftLeading =
 			difference > 0 !==
-			(this.scoringCondition !== ScoringCondition.MISS_COUNT);
+			(this.scoringCondition === ScoringCondition.MISS_COUNT);
 		const isRightLeading =
 			difference < 0 !==
-			(this.scoringCondition !== ScoringCondition.MISS_COUNT);
+			(this.scoringCondition === ScoringCondition.MISS_COUNT);
 
 		this.barLeftElement.style.width = isLeftLeading
 			? `calc(${Math.min(1, lineDiffFactor)} * 960px)`
