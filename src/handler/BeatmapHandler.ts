@@ -1,7 +1,7 @@
 import axios from "axios";
 import type ZEngine from "@fukutotojido/z-engine";
 import type Test from "../Test";
-import { BeatmapStats } from "../types";
+import type { BeatmapStats } from "../types";
 
 export enum Mods {
     NONE = 0,
@@ -147,14 +147,12 @@ export default class BeatmapHandler {
 		const element: HTMLElement | null = document.querySelector(`#picker`,);
 		if (element === null) return;
 
-		const hasRed = this.redPickedMaps.has(this.currentMapId);
-		const hasBlue = this.bluePickedMaps.has(this.currentMapId);
+		const hasRed = this.redPickedMaps.get(this.currentMapId);
+		const hasBlue = this.bluePickedMaps.get(this.currentMapId);
 
 		if (hasRed || hasBlue) {
-			if (hasRed)
-				this.updateMapStats(this.redPickedMaps.get(this.currentMapId) ?? Mods.NONE);
-			else
-				this.updateMapStats(this.redPickedMaps.get(this.currentMapId) ?? Mods.NONE);
+			if (hasRed) this.updateMapStats(hasRed);
+			if (hasBlue) this.updateMapStats(hasBlue);
 
 			element.innerHTML = `<span style="writing-mode: vertical-lr; text-orientation: upright;">PICK</span>`;
 			element.style.width = "28px";
