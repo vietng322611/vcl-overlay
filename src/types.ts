@@ -66,6 +66,31 @@ type Beatmapset = {
     tags:                string;
 }
 
+export type BeatmapStats = {
+    mode:                       number,
+    stars:                      number,
+    isConvert:                  boolean,
+    aim:                        number,
+    aimDifficultSliderCount:    number,
+    speed:                      number,
+    flashlight:                 number,
+    sliderFactor:               number,
+    speedNoteCount:             number,
+    aimDifficultStrainCount:    number,
+    speedDifficultStrainCount:  number,
+    hp:                         number,
+    nCircles:                   number,
+    nSliders:                   number,
+    nLargeTicks:                number,
+    nSpinners:                  number,
+    ar:                         number,
+    od:                         number,
+    greatHitWindow:             number,
+    okHitWindow:                number,
+    mehHitWindow:               number,
+    maxCombo:                   number
+}
+
 type Covers = {
     cover:          string;
     "cover@2x":     string;
