@@ -47,25 +47,7 @@ export type Beatmap = {
     owners:                 Owner[];
 }
 
-type Beatmapset = {
-    artist:              string;
-    artist_unicode:      string;
-    covers:              Covers;
-    creator:             string;
-    id:                  number;
-    offset:              number;
-    preview_url:         string;
-    source:              string;
-    status:              string;
-    title:               string;
-    title_unicode:       string;
-    track_id:            null;
-    user_id:             number;
-    video:               boolean;
-    bpm:                 number;
-    tags:                string;
-}
-
+// api/calculate/pp
 export type BeatmapStats = {
     mode:                       number,
     stars:                      number,
@@ -89,6 +71,25 @@ export type BeatmapStats = {
     okHitWindow:                number,
     mehHitWindow:               number,
     maxCombo:                   number
+}
+
+type Beatmapset = {
+    artist:              string;
+    artist_unicode:      string;
+    covers:              Covers;
+    creator:             string;
+    id:                  number;
+    offset:              number;
+    preview_url:         string;
+    source:              string;
+    status:              string;
+    title:               string;
+    title_unicode:       string;
+    track_id:            null;
+    user_id:             number;
+    video:               boolean;
+    bpm:                 number;
+    tags:                string;
 }
 
 type Covers = {
