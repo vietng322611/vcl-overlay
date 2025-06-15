@@ -1,6 +1,6 @@
 import axios from "axios";
 import type { Beatmap, Data, Modpool } from "../types";
-import { PickAction } from "./BeatmapHandler";
+import { Mods, PickAction } from "./BeatmapHandler";
 import type BeatmapHandler from "./BeatmapHandler";
 
 enum Status {
@@ -18,13 +18,15 @@ enum Side {
 class BeatmapContainer {
 	beatmapHandler: BeatmapHandler;
 	data: Beatmap;
+	mod: Mods;
 	status = Status.NIL;
 	side = Side.NIL;
 	ele: HTMLDivElement;
 
-	constructor(data: Beatmap, icon: string, beatmapHandler: BeatmapHandler) {
-		this.beatmapHandler = beatmapHandler;
+	constructor(data: Beatmap, icon: string, mod: Mods, beatmapHandler: BeatmapHandler) {
 		this.data = data;
+		this.beatmapHandler = beatmapHandler;
+		this.mod = mod
 
 		const ele = document.createElement("div");
 		ele.classList.add("w-[500px]", "h-[60px]", "flex", "rounded-xl", "overflow-hidden", "border-1", "border-surface-0", "select-none");
@@ -122,12 +124,12 @@ class BeatmapContainer {
 
 					switch (this.side) {
 						case Side.LEFT: {
-							this.beatmapHandler.updatePickedMaps(this.data.id, PickAction.PICK_RED);
+							this.beatmapHandler.updatePickedMaps(this.data.id, this.mod, PickAction.PICK_RED);
 							indicator.style.backgroundColor = "var(--color-red)";
 							break;
 						}
 						case Side.RIGHT: {
-							this.beatmapHandler.updatePickedMaps(this.data.id, PickAction.PICK_BLUE);
+							this.beatmapHandler.updatePickedMaps(this.data.id, this.mod, PickAction.PICK_BLUE);
 							indicator.style.backgroundColor = "var(--color-blue)";
 							break;
 						}
@@ -144,12 +146,12 @@ class BeatmapContainer {
 
 					switch (this.side) {
 						case Side.LEFT: {
-							this.beatmapHandler.updatePickedMaps(this.data.id, PickAction.REMOVE_PICK);
+							this.beatmapHandler.updatePickedMaps(this.data.id, this.mod, PickAction.REMOVE_PICK);
 							indicator.style.color = "var(--color-red)";
 							break;
 						}
 						case Side.RIGHT: {
-							this.beatmapHandler.updatePickedMaps(this.data.id, PickAction.REMOVE_PICK);
+							this.beatmapHandler.updatePickedMaps(this.data.id, this.mod, PickAction.REMOVE_PICK);
 							indicator.style.color = "var(--color-blue)";
 							break;
 						}
@@ -160,7 +162,7 @@ class BeatmapContainer {
 					break;
 				}
 				default: {
-					this.beatmapHandler.updatePickedMaps(this.data.id, PickAction.REMOVE_PICK);
+					this.beatmapHandler.updatePickedMaps(this.data.id, this.mod, PickAction.REMOVE_PICK);
 					indicator.textContent = "";
 					indicator.style.width = "0px";
 					indicator.style.color = "";
@@ -183,13 +185,13 @@ class BeatmapContainer {
 }
 
 class ModContainer {
-	mod: string;
+	mod: Mods;
 	icon: string;
 	beatmaps: BeatmapContainer[] = [];
 	ele: HTMLDivElement;
 
 	constructor({ maps, mod, icon }: Modpool, mapsData: Beatmap[], beatmapHandler: BeatmapHandler) {
-		this.mod = mod;
+		this.mod = this.modToEnum(mod);
 		this.icon = icon;
 
 		const ele = document.createElement("div");
@@ -200,9 +202,32 @@ class ModContainer {
 			const mapData = mapsData.find((map) => map.id === id);
 			if (!mapData) continue;
 
-			const beatmapContainer = new BeatmapContainer(mapData, this.icon, beatmapHandler);
+			const beatmapContainer = new BeatmapContainer(mapData, this.icon, this.mod, beatmapHandler);
 			this.ele.append(beatmapContainer.ele);
 			this.beatmaps.push(beatmapContainer);
+		}
+	}
+
+	private modToEnum(mod: string): Mods {
+		switch (mod) {
+			case "NF":
+				return 1; 
+			case "EZ":
+				return 2
+			case "HD":
+				return 8;
+			case "HR":
+				return 16;
+			case "DT":
+				return 64;
+			case "RX":
+				return 128;
+			case "HT":
+				return 256;
+			case "AP":
+				return 8192;
+			default:
+				return 0;
 		}
 	}
 }
