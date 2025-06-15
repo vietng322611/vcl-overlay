@@ -1,5 +1,19 @@
+import axios from "axios";
 import type ZEngine from "@fukutotojido/z-engine";
 import type Test from "../Test";
+import { BeatmapStats } from "../types";
+
+export enum Mods {
+    NONE = 0,
+    NF = 1,
+    EZ = 2,
+    HD = 8,
+    HR = 16,
+    DT = 64,
+    RX = 128,
+    HT = 256,
+    AP = 8192
+}
 
 export enum PickAction {
 	PICK_RED = 0,
@@ -8,8 +22,8 @@ export enum PickAction {
 }
 
 export default class BeatmapHandler {
-	redPickedMaps: Set<Number> = new Set();
-	bluePickedMaps: Set<Number> = new Set();
+	redPickedMaps: Map<Number, Mods> = new Map();
+	bluePickedMaps: Map<Number, Mods> = new Map();
 	currentMapId: number = -1;
 
 	static map = [
@@ -108,7 +122,7 @@ export default class BeatmapHandler {
 		}
 	}
 
-	public updatePickedMaps(mapId: number, action: number) {
+	public updatePickedMaps(mapId: number, mod: Mods, action: number) {
 		switch (action) {
 			case PickAction.REMOVE_PICK: {
 				this.redPickedMaps.delete(mapId);
@@ -116,12 +130,12 @@ export default class BeatmapHandler {
 				break;
 			}
 			case PickAction.PICK_RED: {
-				this.redPickedMaps.add(mapId);
+				this.redPickedMaps.set(mapId, mod);
 				this.bluePickedMaps.delete(mapId);
 				break;
 			}
 			case PickAction.PICK_BLUE: {
-				this.bluePickedMaps.add(mapId);
+				this.bluePickedMaps.set(mapId, mod);
 				this.redPickedMaps.delete(mapId);
 				break;
 			}
@@ -137,6 +151,11 @@ export default class BeatmapHandler {
 		const hasBlue = this.bluePickedMaps.has(this.currentMapId);
 
 		if (hasRed || hasBlue) {
+			if (hasRed)
+				this.updateMapStats(this.redPickedMaps.get(this.currentMapId) ?? Mods.NONE);
+			else
+				this.updateMapStats(this.redPickedMaps.get(this.currentMapId) ?? Mods.NONE);
+
 			element.innerHTML = `<span style="writing-mode: vertical-lr; text-orientation: upright;">PICK</span>`;
 			element.style.width = "28px";
 			element.style.color = "white";
@@ -148,10 +167,59 @@ export default class BeatmapHandler {
 		element.style.color = "";
 	}
 
+	private async updateMapStats(mod: Mods) {
+		if (mod === Mods.NONE) return;
+		let allEle = ["CS", "AR", "OD", "SR", "length"]
+		let stats: BeatmapStats = (await axios.get(`http://127.0.0.1:24050/api/calculate/pp?mods=64`)).data["difficulty"];
+		for (const value of allEle) {
+			const element: HTMLElement | null = document.querySelector(
+				`#${value}`,
+			);
+			if (element === null) return;
+			switch (value) {
+				case "CS":
+					let cs = parseInt(element.innerText);
+					switch (mod) {
+						case Mods.EZ:
+							cs /= 2;
+							break;
+						case Mods.HR:
+							cs = Math.min(cs*1.3, 10);
+							break;
+					}
+					element.innerText = cs.toFixed(1).toString();
+					break;
+				case "AR":
+					element.innerText = stats.ar.toFixed(1).toString();
+					break;
+				case "OD":
+					element.innerText = stats.od.toFixed(1).toString();
+					break;
+				case "SR":
+					element.innerText = stats.stars.toFixed(2).toString();
+					break;
+				case "length":
+					let ms = this.toMs(element.innerText);
+					if (mod == Mods.DT) ms /= 1.5;
+					else ms /= 0.75;
+					element.innerText = this.toMinutes(ms);
+					break;
+			}
+		}
+	}
+
 	private toMinutes(miliseconds: number) {
 		const seconds = Math.round(miliseconds / 1000);
 		const minutes = Math.floor(seconds / 60);
 
 		return `${minutes.toString().padStart(2, "0")}:${(seconds % 60).toString().padStart(2, "0")}`;
+	}
+
+	private toMs(minutes: string): number {
+		let time: number[] = [];
+		minutes.split(":").forEach(value => {
+			time.push(parseInt(value));
+		});
+		return time[0] * 60000 + time[1] * 1000;
 	}
 }
