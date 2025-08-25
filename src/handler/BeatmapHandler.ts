@@ -2,7 +2,6 @@ import axios from "axios";
 import type ZEngine from "@fukutotojido/z-engine";
 import type Test from "../Test";
 import type { BeatmapStats } from "../types";
-import { statSync } from "fs";
 
 export enum Mods {
     NONE = 0,
@@ -171,7 +170,7 @@ export default class BeatmapHandler {
 	private async updateMapStats(mod: Mods) {
 		if (this.currentMapId === this.lastStatUpdateMap) return;
 		this.lastStatUpdateMap = this.currentMapId
-		
+
 		if (mod === Mods.NONE) return;
 		let allEle = ["CS", "AR", "OD", "SR", "BPM", "length"]
 		let stats: BeatmapStats = (await axios.get(`http://127.0.0.1:24050/api/calculate/pp?mods=${mod}`)).data["difficulty"];
