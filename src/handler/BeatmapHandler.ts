@@ -2,6 +2,7 @@ import axios from "axios";
 import type ZEngine from "@fukutotojido/z-engine";
 import type Test from "../Test";
 import type { BeatmapStats } from "../types";
+import { statSync } from "fs";
 
 export enum Mods {
     NONE = 0,
@@ -25,6 +26,7 @@ export default class BeatmapHandler {
 	redPickedMaps: Map<Number, Mods> = new Map();
 	bluePickedMaps: Map<Number, Mods> = new Map();
 	currentMapId: number = -1;
+	lastStatUpdateMap: number = -1
 
 	static map = [
 		{
@@ -147,17 +149,18 @@ export default class BeatmapHandler {
 		const element: HTMLElement | null = document.querySelector(`#picker`,);
 		if (element === null) return;
 
+		console.log(this.currentMapId)
 		const hasRed = this.redPickedMaps.get(this.currentMapId);
 		const hasBlue = this.bluePickedMaps.get(this.currentMapId);
 
-		if (hasRed || hasBlue) {
-			if (hasRed) this.updateMapStats(hasRed);
-			if (hasBlue) this.updateMapStats(hasBlue);
+		if (hasRed !== undefined || hasBlue !== undefined) {
+			if (hasRed !== undefined) this.updateMapStats(hasRed);
+			if (hasBlue !== undefined) this.updateMapStats(hasBlue);
 
 			element.innerHTML = `<span style="writing-mode: vertical-lr; text-orientation: upright;">PICK</span>`;
 			element.style.width = "28px";
 			element.style.color = "white";
-			element.style.backgroundColor = hasRed ? "var(--color-red)" : "var(--color-blue)";
+			element.style.backgroundColor = (hasRed !== undefined) ? "var(--color-red)" : "var(--color-blue)";
 			return;
 		}
 		element.innerHTML = "";
@@ -166,9 +169,12 @@ export default class BeatmapHandler {
 	}
 
 	private async updateMapStats(mod: Mods) {
+		if (this.currentMapId === this.lastStatUpdateMap) return;
+		this.lastStatUpdateMap = this.currentMapId
+		
 		if (mod === Mods.NONE) return;
-		let allEle = ["CS", "AR", "OD", "SR", "length"]
-		let stats: BeatmapStats = (await axios.get(`http://127.0.0.1:24050/api/calculate/pp?mods=64`)).data["difficulty"];
+		let allEle = ["CS", "AR", "OD", "SR", "BPM", "length"]
+		let stats: BeatmapStats = (await axios.get(`http://127.0.0.1:24050/api/calculate/pp?mods=${mod}`)).data["difficulty"];
 		for (const value of allEle) {
 			const element: HTMLElement | null = document.querySelector(
 				`#${value}`,
@@ -196,9 +202,14 @@ export default class BeatmapHandler {
 				case "SR":
 					element.innerText = stats.stars.toFixed(2).toString();
 					break;
+				case "BPM":
+					let bpm = parseFloat(element.innerText)
+					if (mod === Mods.DT)
+						element.innerHTML = (bpm * 1.5).toString()
+					break;
 				case "length":
 					let ms = this.toMs(element.innerText);
-					if (mod == Mods.DT) ms /= 1.5;
+					if (mod === Mods.DT) ms /= 1.5;
 					else ms /= 0.75;
 					element.innerText = this.toMinutes(ms);
 					break;
