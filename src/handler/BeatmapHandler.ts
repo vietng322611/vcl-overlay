@@ -148,7 +148,6 @@ export default class BeatmapHandler {
 		const element: HTMLElement | null = document.querySelector(`#picker`,);
 		if (element === null) return;
 
-		console.log(this.currentMapId)
 		const hasRed = this.redPickedMaps.get(this.currentMapId);
 		const hasBlue = this.bluePickedMaps.get(this.currentMapId);
 
